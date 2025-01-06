@@ -1,10 +1,10 @@
-import { openModal, closeModal, openImageModal } from "./modal";
+import { openModal } from "./modal";
 
 const cardTemplate = document.querySelector("#card-template").content;
 const placesList = document.querySelector(".places__list");
 const imagePopup = document.querySelector(".popup_type_image");
 
-function createCard(item, { deleteCard }) {
+function createCard(item, { deleteCard, likeCard, openImageModal }) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
   const cardTitle = cardElement.querySelector(".card__title");
@@ -15,30 +15,10 @@ function createCard(item, { deleteCard }) {
   cardImage.alt = item.name;
   cardTitle.textContent = item.name;
 
-  cardElement.addEventListener("click", (evt) => {
-    if (evt.target.classList.contains("card__image")) {
-      const imageSrc = evt.target.src;
-      const imageCaption = evt.target.alt;
-      
-      const handleKeydown = (evt) => {
-        if (evt.key === "Escape") {
-          closeModal(imagePopup, handleKeydown);
-        }
-      };
-      
-      imagePopup.addEventListener("click", (evt) => {
-        if (
-          evt.target === imagePopup ||
-          evt.target.classList.contains("popup__close")
-        ) {
-          closeModal(imagePopup);
-        }
-      });
-      document.addEventListener("keydown", handleKeydown);
-      openImageModal(imageSrc, imageCaption);
-      openModal(imagePopup);
-    }
-    
+  cardImage.addEventListener("click", () => {
+    const imageSrc = item.link;
+    const imageCaption = item.name;
+    openImageModal(imageSrc, imageCaption);
   });
 
   deleteButton.addEventListener("click", () => {
@@ -60,11 +40,13 @@ function likeCard(likeButton) {
   likeButton.classList.toggle("card__like-button_is-active");
 }
 
-function renderCards(arr) {
-  arr.forEach((card) => {
-    const cardElement = createCard(card, { deleteCard });
-    return placesList.append(cardElement);
-  });
+function openImageModal(imageSrc, imageCaption) {
+  const image = document.querySelector(".popup__image");
+  const imgCaption = document.querySelector(".popup__caption");
+
+  image.src = imageSrc;
+  imgCaption.textContent = imageCaption;
+  openModal(imagePopup);
 }
 
-export { createCard, deleteCard, renderCards, placesList };
+export { createCard, deleteCard, likeCard, openImageModal, placesList };

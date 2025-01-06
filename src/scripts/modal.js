@@ -1,20 +1,31 @@
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
+  modal.tabIndex = 0;
+  modal.addEventListener("click", closePopupByClick);
+  modal.addEventListener("keydown", closePopupByEscape);
 }
 
-function closeModal(modal, handler) {
+function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
   modal.classList.add("popup_is-animated");
 
-  document.removeEventListener("keydown", handler);
+  document.removeEventListener("click", closePopupByClick);
+  document.removeEventListener("keydown", closePopupByEscape);
 }
 
-function openImageModal(imageSrc, imageCaption) {
-  const image = document.querySelector(".popup__image");
-  const imgCaption = document.querySelector(".popup__caption");
+const closePopupByEscape = (evt) => {
+  if (evt.key === "Escape") {
+    closeModal(evt.currentTarget);
+  }
+};
 
-  image.src = imageSrc;
-  imgCaption.textContent = imageCaption;
-}
+const closePopupByClick = (evt) => {
+  if (
+    evt.target === evt.currentTarget ||
+    evt.target.classList.contains("popup__close")
+  ) {
+    closeModal(evt.currentTarget);
+  }
+};
 
-export { openModal, closeModal, openImageModal };
+export { openModal, closeModal };

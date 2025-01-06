@@ -1,5 +1,11 @@
 import { closeModal } from "./modal";
-import { createCard, deleteCard, placesList } from "./card";
+import {
+  createCard,
+  deleteCard,
+  likeCard,
+  openImageModal,
+  placesList,
+} from "./card";
 
 const editForm = document.forms.editProfile;
 const nameInput = editForm.elements.name;
@@ -26,12 +32,13 @@ function handleNewCardSubmit(evt, modal) {
 
   const cardValue = cardInput.value;
   const urlValue = urlInput.value;
-  let newObj = { name: cardValue, link: urlValue };
+  const newObj = { name: cardValue, link: urlValue };
 
-  placesList.prepend(createCard(newObj, { deleteCard }));
-  cardInput.value = "";
-  urlInput.value = "";
+  placesList.prepend(
+    createCard(newObj, { deleteCard, likeCard, openImageModal })
+  );
+  newCardForm.reset();
   closeModal(modal);
 }
 
-export { handleEditSubmit, handleNewCardSubmit }
+export { handleEditSubmit, handleNewCardSubmit };
