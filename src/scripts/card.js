@@ -1,8 +1,5 @@
-import { openModal } from "./modal";
-
 const cardTemplate = document.querySelector("#card-template").content;
 const placesList = document.querySelector(".places__list");
-const imagePopup = document.querySelector(".popup_type_image");
 
 function createCard(item, { deleteCard, likeCard, openImageModal }) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
@@ -40,13 +37,4 @@ function likeCard(likeButton) {
   likeButton.classList.toggle("card__like-button_is-active");
 }
 
-function openImageModal(imageSrc, imageCaption) {
-  const image = document.querySelector(".popup__image");
-  const imgCaption = document.querySelector(".popup__caption");
-
-  image.src = imageSrc;
-  imgCaption.textContent = imageCaption;
-  openModal(imagePopup);
-}
-
-export { createCard, deleteCard, likeCard, openImageModal, placesList };
+export { createCard, deleteCard, likeCard, placesList };

@@ -1,11 +1,6 @@
+import { openImageModal } from "../index";
 import { closeModal } from "./modal";
-import {
-  createCard,
-  deleteCard,
-  likeCard,
-  openImageModal,
-  placesList,
-} from "./card";
+import { createCard, deleteCard, likeCard, placesList } from "./card";
 
 const editForm = document.forms.editProfile;
 const nameInput = editForm.elements.name;
