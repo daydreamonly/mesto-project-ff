@@ -1,5 +1,5 @@
 import "./pages/index.css";
-import { createCard, deleteCard } from "./scripts/card.js";
+import { createCard, deleteCard, likeCallback } from "./scripts/card.js";
 import { closeModal, openModal } from "./scripts/modal.js";
 import {
   handleEditSubmit,
@@ -97,7 +97,7 @@ Promise.all([getUser(), getInitialCards()])
     cardsData.forEach((card) => {
       const cardElement = createCard(
         card,
-        { openImageModal, openDeleteModal },
+        { openImageModal, openDeleteModal, likeCallback },
         userInfo
       );
 

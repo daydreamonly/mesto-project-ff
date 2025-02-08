@@ -1,6 +1,6 @@
 import { openImageModal, openDeleteModal } from "../index";
 import { closeModal } from "./modal";
-import { createCard } from "./card";
+import { createCard, likeCallback } from "./card";
 import { placesList } from "../index";
 import { postNewCard, updateAvatar, updateUserData } from "./api";
 
@@ -40,7 +40,11 @@ function handleNewCardSubmit(evt, modal, userInfo) {
   postNewCard(cardValue, urlValue)
     .then((cardData) => {
       placesList.prepend(
-        createCard(cardData, { openImageModal, openDeleteModal }, userInfo)
+        createCard(
+          cardData,
+          { openImageModal, openDeleteModal, likeCallback },
+          userInfo
+        )
       );
     })
     .catch((err) => {
