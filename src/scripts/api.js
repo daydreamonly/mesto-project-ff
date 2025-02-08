@@ -1,7 +1,3 @@
-const PATH = "https://nomoreparties.co";
-const cohortId = "wff-cohort-31";
-const TOKEN = "90ce202b-d8aa-4699-9c69-f641495b1448";
-
 const config = {
   baseUrl: "https://nomoreparties.co/v1/wff-cohort-31",
   headers: {
@@ -10,151 +6,86 @@ const config = {
   },
 };
 
+const handleResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+
+  return Promise.reject(`Ошибка: ${res.status}`);
+};
+
 const getUser = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "GET",
     headers: {
       authorization: config.headers.authorization,
     },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(handleResponse);
 };
 
 const getInitialCards = () => {
-  return fetch(`${PATH}/v1/${cohortId}/cards`, {
+  return fetch(`${config.baseUrl}/cards`, {
     method: "GET",
     headers: {
-      authorization: TOKEN,
+      authorization: config.headers.authorization,
     },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(handleResponse);
 };
 
-const updateUserData = (name, about, avatar) => {
-  return fetch(`${PATH}/v1/${cohortId}/users/me`, {
+const updateUserData = (name, about) => {
+  return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: {
-      authorization: TOKEN,
-      "Content-type": "application/json",
+      authorization: config.headers.authorization,
+      "Content-type": config.headers["Content-type"],
     },
     body: JSON.stringify({
       name,
       about,
-      avatar,
     }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(handleResponse);
 };
 
 const postNewCard = (name, link) => {
-  return fetch(`${PATH}/v1/${cohortId}/cards`, {
+  return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
     headers: {
-      authorization: TOKEN,
-      "Content-type": "application/json",
+      authorization: config.headers.authorization,
+      "Content-type": config.headers["Content-type"],
     },
     body: JSON.stringify({
       name,
       link,
     }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(handleResponse);
 };
 
 const deleteCardAPI = (cardId) => {
-  return fetch(`${PATH}/v1/${cohortId}/cards/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: "DELETE",
     headers: {
-      authorization: TOKEN,
+      authorization: config.headers.authorization,
     },
     body: JSON.stringify({ cardId }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(handleResponse);
 };
 
 const likeCardAPI = (cardId) => {
-  return fetch(`${PATH}/v1/${cohortId}/cards/likes/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "PUT",
     headers: {
-      authorization: TOKEN,
+      authorization: config.headers.authorization,
     },
-  })
-    .then((res) => {
-      if (res.ok) {
-        console.log(`Лайк добавлен ${cardId}`);
-        return res.json();
-      }
-
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(handleResponse);
 };
 
 const unlikeCardAPI = (cardId) => {
-  return fetch(`${PATH}/v1/${cohortId}/cards/likes/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "DELETE",
     headers: {
-      authorization: TOKEN,
+      authorization: config.headers.authorization,
     },
-  })
-    .then((res) => {
-      if (res.ok) {
-        console.log(`Лайк удален ${cardId}`);
-        return res.json();
-      }
-
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(handleResponse);
 };
 
 const updateAvatar = (avatar) => {
@@ -165,17 +96,7 @@ const updateAvatar = (avatar) => {
       "Content-type": "application/json",
     },
     body: JSON.stringify({ avatar }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(handleResponse);
 };
 
 export {
